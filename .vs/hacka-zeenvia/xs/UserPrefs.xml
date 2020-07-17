@@ -1,0 +1,32 @@
+﻿<Properties StartupConfiguration="{BD7A866E-758F-45E3-80F6-14849DEF1737}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="hacka-zeenvia/Controllers/ProdutoController.cs">
+    <Files>
+      <File FileName="hacka-zeenvia/Controllers/ProdutoController (copy).cs" Line="86" Column="61" />
+      <File FileName="hacka-zeenvia/Controllers/FeiranteController.cs" Line="1" Column="1" />
+      <File FileName="hacka-zeenvia/Controllers/ProdutoController.cs" Line="79" Column="62" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="hacka-zeenvia" expanded="True">
+            <Node name="hacka-zeenvia" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="ProdutoController.cs" selected="True" />
+              </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="appsettings.json" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.hacka-zeenvia PreferredExecutionTarget="/Applications/Safari.app" />
+</Properties>
