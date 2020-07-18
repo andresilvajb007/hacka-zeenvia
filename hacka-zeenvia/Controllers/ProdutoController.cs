@@ -140,7 +140,7 @@ namespace hacka_zeenvia.Controllers
             }
 
             StringBuilder stringBuilder = new StringBuilder();
-            produtos.ForEach(x => stringBuilder.AppendLine( $"{x.ProdutoId} - {x.Nome}"));
+            produtos.ForEach(x => stringBuilder.AppendLine($"{x.ProdutoId} - {x.Nome}"));
             
 
             return Ok(stringBuilder.ToString());
