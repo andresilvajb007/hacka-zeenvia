@@ -40,11 +40,10 @@ namespace hacka_zeenvia.Controllers
         {
 
             var json = JsonConvert.SerializeObject(model);
-            _logger.LogInformation($"Acessando POST {nameof(FeiranteController)} {nameof(model)}: {json}");
-          
-            _context.Feirante.Add(model);
-            var retorno = _context.SaveChanges();
+            _logger.LogInformation($"Acessando POST {nameof(FeiranteController)} {nameof(model)}: {json}");         
 
+            _context.Feirante.Add(model);
+            _context.SaveChanges();
 
             return Ok();
            

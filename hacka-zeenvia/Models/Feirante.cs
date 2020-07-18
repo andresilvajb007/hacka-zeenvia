@@ -11,7 +11,8 @@ namespace hacka_zeenvia.Models
 
         public string Celular { get; set; }
 
-        public ICollection<FeiranteProduto> FeiranteProdutos { get; private set; }
+        public ICollection<FeiranteProduto> FeiranteProdutos { get;  set; }
+        
 
         public Feirante()
         {

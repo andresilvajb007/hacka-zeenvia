@@ -70,14 +70,15 @@ namespace hacka_zeenvia.Migrations
                 name: "FeiranteProduto",
                 columns: table => new
                 {
+                    FeiranteProdutoId = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FeiranteId = table.Column<int>(nullable: false),
-                    FeiranteProdutoId = table.Column<int>(nullable: false),
                     ProdutoId = table.Column<int>(nullable: false),
                     Preco = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FeiranteProduto", x => x.FeiranteId);
+                    table.PrimaryKey("PK_FeiranteProduto", x => x.FeiranteProdutoId);
                     table.ForeignKey(
                         name: "FK_FeiranteProduto_Feirante_FeiranteId",
                         column: x => x.FeiranteId,
@@ -91,6 +92,11 @@ namespace hacka_zeenvia.Migrations
                         principalColumn: "ProdutoId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FeiranteProduto_FeiranteId",
+                table: "FeiranteProduto",
+                column: "FeiranteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FeiranteProduto_ProdutoId",

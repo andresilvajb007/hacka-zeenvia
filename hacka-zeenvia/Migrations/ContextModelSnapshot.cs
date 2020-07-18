@@ -56,10 +56,12 @@ namespace hacka_zeenvia.Migrations
 
             modelBuilder.Entity("hacka_zeenvia.Models.FeiranteProduto", b =>
                 {
-                    b.Property<int>("FeiranteId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("FeiranteProdutoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("FeiranteId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Preco")
@@ -68,7 +70,9 @@ namespace hacka_zeenvia.Migrations
                     b.Property<int>("ProdutoId")
                         .HasColumnType("integer");
 
-                    b.HasKey("FeiranteId");
+                    b.HasKey("FeiranteProdutoId");
+
+                    b.HasIndex("FeiranteId");
 
                     b.HasIndex("ProdutoId");
 

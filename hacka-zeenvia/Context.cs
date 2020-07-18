@@ -36,12 +36,13 @@ namespace hacka_zeenvia
         private void ConfigureFeirante(EntityTypeBuilder<Feirante> builder)
         {
 
-            builder.HasKey(x => x.FeiranteId);            
+            builder.HasKey(x => x.FeiranteId);
+
         }
 
         private void ConfigureFeiranteProduto(EntityTypeBuilder<FeiranteProduto> builder)
         {
-            builder.HasKey(x => x.FeiranteId);
+            builder.HasKey(x => x.FeiranteProdutoId);
 
             builder.HasOne(x => x.Feirante)
                    .WithMany(x => x.FeiranteProdutos)

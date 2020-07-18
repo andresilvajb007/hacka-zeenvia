@@ -9,7 +9,7 @@ using hacka_zeenvia;
 namespace hacka_zeenvia.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20200718172605_Initial")]
+    [Migration("20200718174829_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,10 +58,12 @@ namespace hacka_zeenvia.Migrations
 
             modelBuilder.Entity("hacka_zeenvia.Models.FeiranteProduto", b =>
                 {
-                    b.Property<int>("FeiranteId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("FeiranteProdutoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("FeiranteId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Preco")
@@ -70,7 +72,9 @@ namespace hacka_zeenvia.Migrations
                     b.Property<int>("ProdutoId")
                         .HasColumnType("integer");
 
-                    b.HasKey("FeiranteId");
+                    b.HasKey("FeiranteProdutoId");
+
+                    b.HasIndex("FeiranteId");
 
                     b.HasIndex("ProdutoId");
 
