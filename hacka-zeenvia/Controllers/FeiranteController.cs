@@ -9,7 +9,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
+
+
 
 namespace hacka_zeenvia.Controllers
 {
@@ -95,37 +96,6 @@ namespace hacka_zeenvia.Controllers
             }
 
             return Ok(Feirantes);
-        }
-
-        [HttpGet("feirantes-disponiveis")]
-        [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult FeirantesDisponiveis([FromQuery] String nome, int? feiranteId, int? produtoId)
-        {
-            _logger.LogInformation($"Acessando GET  Feirante feirantes-disponiveis {nameof(nome)}: {nome} , {nameof(feiranteId)}: {feiranteId}, {nameof(produtoId)}: {produtoId}");
-
-            var Feirantes = _context.Feirante.Include(x=> x.Produtos)
-                                                 .Where(x => (feiranteId == null || x.FeiranteId == feiranteId) &&
-                                                             (produtoId == null || x.Produtos.Where(x=>x.ProdutoId == produtoId).Any()) &&
-                                                             (string.IsNullOrEmpty(nome) || x.Nome.ToLower().Contains(nome.ToLower()))
-                                                        ).ToList();
-
-            if (Feirantes == null || Feirantes.Count() == 0)
-            {
-                return NotFound();
-            }
-
-            StringBuilder stringBuilder = new StringBuilder();
-
-            foreach (var feirante in Feirantes)
-            {
-                stringBuilder.AppendLine($"{feirante.FeiranteId} - {feirante.Nome}");                
-            }            
-
-            return Ok(stringBuilder.ToString());
         }
 
 
