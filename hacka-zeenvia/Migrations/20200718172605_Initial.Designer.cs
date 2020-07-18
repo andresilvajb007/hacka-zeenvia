@@ -9,8 +9,8 @@ using hacka_zeenvia;
 namespace hacka_zeenvia.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20200717223812_MensagemAP")]
-    partial class MensagemAP
+    [Migration("20200718172605_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,27 @@ namespace hacka_zeenvia.Migrations
                     b.ToTable("Feirante");
                 });
 
+            modelBuilder.Entity("hacka_zeenvia.Models.FeiranteProduto", b =>
+                {
+                    b.Property<int>("FeiranteId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FeiranteProdutoId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FeiranteId");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.ToTable("FeiranteProduto");
+                });
+
             modelBuilder.Entity("hacka_zeenvia.Models.MensagemZAP", b =>
                 {
                     b.Property<int>("MensagemZAPId")
@@ -93,24 +114,25 @@ namespace hacka_zeenvia.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("FeiranteId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Nome")
                         .HasColumnType("text");
 
                     b.HasKey("ProdutoId");
 
-                    b.HasIndex("FeiranteId");
-
                     b.ToTable("Produto");
                 });
 
-            modelBuilder.Entity("hacka_zeenvia.Models.Produto", b =>
+            modelBuilder.Entity("hacka_zeenvia.Models.FeiranteProduto", b =>
                 {
                     b.HasOne("hacka_zeenvia.Models.Feirante", "Feirante")
-                        .WithMany("Produtos")
+                        .WithMany("FeiranteProdutos")
                         .HasForeignKey("FeiranteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("hacka_zeenvia.Models.Produto", "Produto")
+                        .WithMany("FeiranteProdutos")
+                        .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

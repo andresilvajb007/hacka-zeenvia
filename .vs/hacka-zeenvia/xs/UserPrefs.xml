@@ -1,19 +1,22 @@
 ﻿<Properties StartupConfiguration="{BD7A866E-758F-45E3-80F6-14849DEF1737}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="hacka-zeenvia/Migrations/20200718170034_alter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="hacka-zeenvia/Migrations/20200718172605_Initial.cs">
     <Files>
-      <File FileName="hacka-zeenvia/Models/Produto.cs" Line="8" Column="41" />
-      <File FileName="hacka-zeenvia/Context.cs" Line="34" Column="1" />
+      <File FileName="hacka-zeenvia/Models/Produto (copy).cs" Line="21" Column="1" IsPinned="True" />
+      <File FileName="hacka-zeenvia/Models/Produto.cs" Line="18" Column="2" />
+      <File FileName="hacka-zeenvia/Context.cs" Line="52" Column="51" />
       <File FileName="hacka-zeenvia/Controllers/ProdutoController.cs" Line="86" Column="51" />
-      <File FileName="hacka-zeenvia/Migrations/20200718170034_alter.cs" Line="26" Column="57" />
+      <File FileName="hacka-zeenvia/Models/Feirante.cs" Line="21" Column="1" />
+      <File FileName="hacka-zeenvia/Models/Cliente.cs" Line="1" Column="1" />
+      <File FileName="hacka-zeenvia/Models/MensagemZAP.cs" Line="1" Column="1" />
+      <File FileName="hacka-zeenvia/Migrations/20200718172605_Initial.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="hacka-zeenvia" expanded="True">
             <Node name="hacka-zeenvia" expanded="True">
-              <Node name="Controllers" expanded="True" />
               <Node name="Migrations" expanded="True">
-                <Node name="20200718170034_alter.cs" selected="True" />
+                <Node name="20200718172605_Initial.cs" selected="True" />
               </Node>
               <Node name="Models" expanded="True" />
             </Node>

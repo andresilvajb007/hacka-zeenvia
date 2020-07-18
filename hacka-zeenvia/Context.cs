@@ -23,6 +23,7 @@ namespace hacka_zeenvia
         {
             modelBuilder.Entity<Produto>(ConfigureProduto);
             modelBuilder.Entity<Feirante>(ConfigureFeirante);
+            modelBuilder.Entity<FeiranteProduto>(ConfigureFeiranteProduto);
             modelBuilder.Entity<Cliente>(ConfigureCliente);
             modelBuilder.Entity<MensagemZAP>(ConfigureMensagemZAP);
         }
@@ -30,16 +31,25 @@ namespace hacka_zeenvia
         private void ConfigureProduto(EntityTypeBuilder<Produto> builder)
         {
             builder.HasKey(x => x.ProdutoId);
-
-
         }
 
         private void ConfigureFeirante(EntityTypeBuilder<Feirante> builder)
         {
 
+            builder.HasKey(x => x.FeiranteId);            
+        }
+
+        private void ConfigureFeiranteProduto(EntityTypeBuilder<FeiranteProduto> builder)
+        {
             builder.HasKey(x => x.FeiranteId);
 
-            
+            builder.HasOne(x => x.Feirante)
+                   .WithMany(x => x.FeiranteProdutos)
+                   .HasForeignKey(x => x.FeiranteId);
+
+            builder.HasOne(x => x.Produto)
+                   .WithMany(x => x.FeiranteProdutos)
+                   .HasForeignKey(x => x.ProdutoId);
         }
 
         private void ConfigureCliente(EntityTypeBuilder<Cliente> builder)
