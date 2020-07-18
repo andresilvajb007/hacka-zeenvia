@@ -72,7 +72,7 @@ namespace hacka_zeenvia.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpGet("{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
