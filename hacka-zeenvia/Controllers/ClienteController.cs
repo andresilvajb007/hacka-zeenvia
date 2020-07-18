@@ -96,5 +96,27 @@ namespace hacka_zeenvia.Controllers
         }
 
 
+        [HttpPost("mensagem-enviada")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult MensagemEnviada([FromBody] Cliente model)
+        {
+
+            var json = JsonConvert.SerializeObject(model);
+            _logger.LogInformation($"Acessando POST {nameof(ClienteController)} {nameof(model)}: {json}");
+
+            _context.Cliente.Add(model);
+            _context.SaveChanges();
+
+
+            return Ok();
+
+
+        }
+
+
     }
 }
