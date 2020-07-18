@@ -9,8 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-
-
+using System.Text;
 
 namespace hacka_zeenvia.Controllers
 {
@@ -80,21 +79,52 @@ namespace hacka_zeenvia.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public  IActionResult Get([FromQuery] String nome, int? feiranteId)
+        public  IActionResult Get([FromQuery] String nome, int? feiranteId, int? produtoId)
         {
             _logger.LogInformation($"Acessando GET  Feirante {nameof(nome)}: {nome} , {nameof(feiranteId)}: {feiranteId}");
 
-            var Feirantes = _context.Feirante
+            var feirantes = _context.Feirante
+                                      .Include(x => x.FeiranteProdutos)
                                       .Where(x => (feiranteId == null || x.FeiranteId == feiranteId) &&
+                                                  (produtoId == null || x.FeiranteProdutos.Where(x => x.ProdutoId == produtoId).Any()) &&
                                                   (string.IsNullOrEmpty(nome) || x.Nome.ToLower().Contains(nome.ToLower()))
                                              ).ToList();
 
-            if (Feirantes == null || Feirantes.Count() == 0)
+            if (feirantes == null || feirantes.Count() == 0)
             {
                 return NotFound();
             }
 
-            return Ok(Feirantes);
+            return Ok(feirantes);
+        }
+
+        [HttpGet("menu-feirantes")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult MenuFeirantes([FromQuery] String nome, int? feiranteId, int? produtoId)
+        {
+            _logger.LogInformation($"Acessando GET  Feirante {nameof(nome)}: {nome} , {nameof(feiranteId)}: {feiranteId}");
+
+            var feirantes = _context.Feirante
+                                      .Include(x=>x.FeiranteProdutos)
+                                      .Where(x => (feiranteId == null || x.FeiranteId == feiranteId) &&
+                                                  (produtoId == null || x.FeiranteProdutos.Where(x => x.ProdutoId == produtoId).Any()) &&
+                                                  (string.IsNullOrEmpty(nome) || x.Nome.ToLower().Contains(nome.ToLower()))
+                                             ).ToList();
+
+            if (feirantes == null || feirantes.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            StringBuilder builder = new StringBuilder();
+            feirantes.ForEach(x => builder.AppendLine($"{x.FeiranteId} - {x.Nome} - {x.Celular}"));
+            
+
+            return Ok(builder.ToString());
         }
 
 
