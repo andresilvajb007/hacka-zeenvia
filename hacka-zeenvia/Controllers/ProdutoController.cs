@@ -72,6 +72,27 @@ namespace hacka_zeenvia.Controllers
         }
 
 
+        [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult Find(int id)
+        {
+            _logger.LogInformation($"Acessando Find Produto/{id}");
+
+            var produto = _context.Produto.Find(id);
+
+            if (produto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(produto);
+        }
+
+
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
