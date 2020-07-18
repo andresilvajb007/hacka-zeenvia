@@ -127,7 +127,13 @@ namespace hacka_zeenvia.Controllers
             }
 
             StringBuilder builder = new StringBuilder();
-            feirantes.ForEach(x => builder.AppendLine($"{x.FeiranteId} - {x.Nome} - {x.Celular}"));
+            foreach (var feirante in feirantes)
+            {
+                builder.AppendLine($"{feirante.FeiranteId} - {feirante.Nome}");
+                builder.AppendLine($"{feirante.Celular}");
+                builder.AppendLine(string.Empty);
+            }
+            
             
 
             return Ok(builder.ToString());
