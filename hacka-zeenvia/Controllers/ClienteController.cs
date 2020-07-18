@@ -102,13 +102,27 @@ namespace hacka_zeenvia.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult MensagemEnviada([FromBody] Cliente model)
+        public IActionResult MensagemEnviada([FromBody] EventHook eventHook)
         {
 
-            var json = JsonConvert.SerializeObject(model);
-            _logger.LogInformation($"Acessando POST {nameof(ClienteController)} {nameof(model)}: {json}");
+            var json = JsonConvert.SerializeObject(eventHook);
+            _logger.LogInformation($"Acessando POST mensagem-enviada {nameof(ClienteController)} {nameof(eventHook)}: {json}");
 
-            _context.Cliente.Add(model);
+            foreach (var conteudo in eventHook.Message.Contents.Where(x=>x.Type == "text"))
+            {
+                var mensagem = new MensagemZAP
+                {
+                    From = eventHook.Message.From,
+                    Channel = eventHook.Message.Channel,
+                    Direction = eventHook.Message.Direction,
+                    To = eventHook.Message.To,
+                    Conteudo = conteudo.Text,
+                    VisitorFullName = eventHook.Message.Visitor.Name 
+
+                };
+                _context.MensagemZAP.Add(mensagem);
+            }
+
             _context.SaveChanges();
 
 
