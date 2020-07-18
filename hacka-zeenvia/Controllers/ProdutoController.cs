@@ -83,7 +83,7 @@ namespace hacka_zeenvia.Controllers
             _logger.LogInformation($"Acessando GET  Produto {nameof(nome)}: {nome} , {nameof(feiranteId)}: {feiranteId}, {nameof(produtoId)}: {produtoId}");
 
             var produtos = _context.Produto
-                                      .Where(x => (feiranteId == null || x.FeiranteId == feiranteId) &&
+                                      .Where(x => 
                                                   (produtoId == null || x.ProdutoId == produtoId) &&
                                                   (string.IsNullOrEmpty(nome) || x.Nome.ToLower().Contains(nome.ToLower()))
                                              ).ToList();

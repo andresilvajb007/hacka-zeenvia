@@ -31,9 +31,7 @@ namespace hacka_zeenvia
         {
             builder.HasKey(x => x.ProdutoId);
 
-            builder.HasOne(x => x.Feirante)
-                   .WithMany(x => x.Produtos)
-                   .OnDelete(DeleteBehavior.Cascade);
+
         }
 
         private void ConfigureFeirante(EntityTypeBuilder<Feirante> builder)
