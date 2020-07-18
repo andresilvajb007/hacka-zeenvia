@@ -79,22 +79,26 @@ namespace hacka_zeenvia.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public  IActionResult Get([FromQuery] String nome, int? feiranteId, int? produtoId)
+        public  IActionResult Get([FromQuery] string nome,string nomeProduto,int? feiranteId, int? produtoId)
         {
             _logger.LogInformation($"Acessando GET  Feirante {nameof(nome)}: {nome} , {nameof(feiranteId)}: {feiranteId}");
 
             var feirantes = _context.Feirante
                                       .Include(x => x.FeiranteProdutos)
+                                      .ThenInclude(x => x.Produto)
                                       .Where(x => (feiranteId == null || x.FeiranteId == feiranteId) &&
                                                   (produtoId == null || x.FeiranteProdutos.Where(x => x.ProdutoId == produtoId).Any()) &&
+                                                  (string.IsNullOrEmpty(nomeProduto) || x.FeiranteProdutos.Where(x => x.Produto.Nome.ToLower().Contains(nomeProduto.ToLower())).Any()) &&
                                                   (string.IsNullOrEmpty(nome) || x.Nome.ToLower().Contains(nome.ToLower()))
-                                             ).ToList();
+                                             ).Select(x => new { x.FeiranteId, x.Nome, x.Celular }).ToList();
+                                            
 
             if (feirantes == null || feirantes.Count() == 0)
             {
                 return NotFound();
             }
 
+            
             return Ok(feirantes);
         }
 
@@ -104,14 +108,16 @@ namespace hacka_zeenvia.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult MenuFeirantes([FromQuery] String nome, int? feiranteId, int? produtoId)
+        public IActionResult MenuFeirantes([FromQuery] string nome,string nomeProduto, int? feiranteId, int? produtoId)
         {
             _logger.LogInformation($"Acessando GET  Feirante {nameof(nome)}: {nome} , {nameof(feiranteId)}: {feiranteId}");
 
             var feirantes = _context.Feirante
                                       .Include(x=>x.FeiranteProdutos)
+                                      .ThenInclude(x=>x.Produto)
                                       .Where(x => (feiranteId == null || x.FeiranteId == feiranteId) &&
                                                   (produtoId == null || x.FeiranteProdutos.Where(x => x.ProdutoId == produtoId).Any()) &&
+                                                  (string.IsNullOrEmpty(nomeProduto) || x.FeiranteProdutos.Where(x => x.Produto.Nome.ToLower().Contains(nomeProduto.ToLower())).Any()) &&
                                                   (string.IsNullOrEmpty(nome) || x.Nome.ToLower().Contains(nome.ToLower()))
                                              ).ToList();
 
