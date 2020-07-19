@@ -120,6 +120,19 @@ namespace hacka_zeenvia.Controllers
                 };
 
                 _context.MensagemZAP.Add(mensagem);
+
+
+                var cliente = _context.Cliente.Where(x => x.Celular == mensagem.From).FirstOrDefault();
+
+                if(cliente == null)
+                {
+                    cliente = new Cliente();
+                    cliente.Celular = mensagem.From;
+                    cliente.Nome = mensagem.VisitorFullName;
+
+                    _context.Cliente.Add(cliente);
+                }
+
                 _context.SaveChanges();
 
             }
