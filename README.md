@@ -22,7 +22,7 @@ Aplicação para armazenar Mensagens, Produtos, Clientes, Lojistas e Pedidos.
    - Ter visual studio 2019 instalado 
    - Ter o .Net Core 3.1 instalado 
   
-Para subir a API basta apertar F5 com o projeto aberto no Visual Studio ou rodar o seguinte comando no terminal dentro da pastad do projeto:
+Para subir a API basta apertar F5 com o projeto aberto no Visual Studio ou rodar o seguinte comando no terminal dentro da pasta do projeto:
  - dotnet run
 
 Para acessar a documentação via Swagger:
