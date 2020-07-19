@@ -113,11 +113,27 @@ namespace hacka_zeenvia.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult MenuFeirantes([FromQuery] string nome,string nomeProduto, int? feiranteId, int? produtoId, int? clienteId)
+        public IActionResult MenuFeirantes([FromQuery] string nome,string nomeProduto, int? feiranteId, int? produtoId, string codigoCliente)
         {
+
+            codigoCliente = codigoCliente.ToUpper();
+
+            var autenticacao = _context.Autenticacao
+                                       .Include(x => x.Cliente)
+                                       .Where(x => x.Codigo == codigoCliente)
+                                       .FirstOrDefault();
+
+            int clienteId = 0;
+
+            if (autenticacao != null)
+            {
+                clienteId = autenticacao.ClienteId;
+            }
+
+
             _logger.LogInformation($"Acessando GET  Feirante {nameof(nome)}: {nome} , {nameof(feiranteId)}: {feiranteId}" +
                                    $"{nameof(produtoId)}: {produtoId}" +
-                                   $"{nameof(clienteId)}: {clienteId}" +
+                                   $"{nameof(codigoCliente)}: {codigoCliente}" +
                                    $"{nameof(nomeProduto)}: {nomeProduto}");
 
             var feirantes = _context.Feirante
