@@ -114,12 +114,23 @@ namespace hacka_zeenvia.Controllers
                                       .Where(x => (produtoId == null || x.ProdutoId == produtoId) &&
                                                   (feiranteId == null || x.FeiranteId == feiranteId)
                                                   
-                                             ).ToList();
+                                             )
+                                      .Select(x => new
+                                      {
+                                          x.FeiranteId,
+                                          x.FeiranteProdutoId,
+                                          x.Produto.Nome,
+                                          x.Produto.Unidade,
+                                          x.Produto.UrlImagem,
+                                          x.Preco
+                                      }).ToList();
+
 
             if (produtos == null || produtos.Count() == 0)
             {
                 return NotFound();
             }
+            
 
             return Ok(produtos);
         }
