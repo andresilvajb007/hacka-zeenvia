@@ -1,22 +1,21 @@
 ﻿<Properties StartupConfiguration="{BD7A866E-758F-45E3-80F6-14849DEF1737}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="hacka-zeenvia/Controllers/ErrorController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="hacka-zeenvia/Migrations/20200718234535_Pedido.cs">
     <Files>
-      <File FileName="hacka-zeenvia/Controllers/FeiranteController.cs" Line="109" Column="62" />
-      <File FileName="hacka-zeenvia/Models/Feirante.cs" />
-      <File FileName="hacka-zeenvia/Context.cs" />
-      <File FileName="hacka-zeenvia/Controllers/ProdutoController.cs" Line="115" Column="1" />
-      <File FileName="hacka-zeenvia/Migrations/20200718174829_Initial.cs" Line="100" Column="1" />
-      <File FileName="hacka-zeenvia/Controllers/ErrorController.cs" Line="27" Column="1" />
+      <File FileName="hacka-zeenvia/Controllers/FeiranteController.cs" Line="159" Column="97" />
+      <File FileName="hacka-zeenvia/DTO/PedidoDTO.cs" Line="38" Column="65" />
+      <File FileName="hacka-zeenvia/Models/ItemPedido.cs" Line="8" Column="7" />
+      <File FileName="hacka-zeenvia/DTO/ItemPedidoDTO.cs" Line="27" Column="38" />
+      <File FileName="hacka-zeenvia/Models/Pedido.cs" Line="16" Column="33" />
+      <File FileName="hacka-zeenvia/Migrations/20200718234535_Pedido.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="hacka-zeenvia" expanded="True">
             <Node name="hacka-zeenvia" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="ErrorController.cs" selected="True" />
+              <Node name="Migrations" expanded="True">
+                <Node name="20200718234535_Pedido.cs" selected="True" />
               </Node>
-              <Node name="Migrations" expanded="True" />
             </Node>
           </Node>
         </State>
@@ -26,7 +25,11 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/andresilva/Documents/Projetos/hacka-zeenvia/hacka-zeenvia/Controllers/FeiranteController.cs" relfile="hacka-zeenvia/Controllers/FeiranteController.cs" line="209" column="1" />
+      <Breakpoint file="/Users/andresilva/Documents/Projetos/hacka-zeenvia/hacka-zeenvia/Controllers/FeiranteController.cs" relfile="hacka-zeenvia/Controllers/FeiranteController.cs" line="176" column="1" />
+      <Breakpoint file="/Users/andresilva/Documents/Projetos/hacka-zeenvia/hacka-zeenvia/Controllers/FeiranteController.cs" relfile="hacka-zeenvia/Controllers/FeiranteController.cs" line="156" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.hacka-zeenvia PreferredExecutionTarget="/Applications/Safari.app" />

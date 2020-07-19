@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+
 namespace hacka_zeenvia.Models
 {
     public class FeiranteProduto
@@ -12,6 +15,8 @@ namespace hacka_zeenvia.Models
         public virtual Produto Produto { get; set; }
 
         public decimal Preco { get; set; }
+
+        public ICollection<ItemPedido> ItensPedido { get; set; }
 
         public FeiranteProduto()
         {

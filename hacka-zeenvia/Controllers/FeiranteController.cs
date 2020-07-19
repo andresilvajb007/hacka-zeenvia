@@ -10,6 +10,10 @@ using Newtonsoft.Json;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
+using System.Net.Http;
+using hacka_zeenvia.Models.SendMessageZenvia;
+using System.Text.RegularExpressions;
+using hacka_zeenvia.DTO;
 
 namespace hacka_zeenvia.Controllers
 {
@@ -129,8 +133,10 @@ namespace hacka_zeenvia.Controllers
             StringBuilder builder = new StringBuilder();
             foreach (var feirante in feirantes)
             {
+                var celularMask =  long.Parse(feirante.Celular).ToString(@"00 (00) 00000-0000"); // (49) 98807-0405
+
                 builder.AppendLine($"{feirante.FeiranteId} - {feirante.Nome}");
-                builder.AppendLine($"{feirante.Celular}");
+                builder.AppendLine($"{celularMask}");
                 builder.AppendLine(string.Empty);
             }
             
@@ -138,6 +144,77 @@ namespace hacka_zeenvia.Controllers
 
             return Ok(builder.ToString());
         }
+
+        [HttpPost("enviar-pedido-zap")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult EnviarPedido([FromBody] PedidoDTO pedidoDTO)
+        {
+            _logger.LogInformation($"Acessando GET  EnviarPedido ");
+
+            var pedido = pedidoDTO.ToPedido();
+            var feiranteProdutoIds = pedidoDTO.ItensPedidoDTO.Select(x => x.FeiranteProdutoId).ToList();
+
+            var cliente = _context.Cliente.Find(pedido.ClienteId);
+            var feirante = _context.Feirante.Find(pedido.FeiranteId);
+            var feiranteProdutos = _context.FeiranteProduto
+                                           .Include(x=>x.Produto)
+                                           .Where(x => feiranteProdutoIds.Contains(x.FeiranteProdutoId))
+                                           .ToList();
+
+
+            _context.Pedido.Add(pedido);
+            _context.SaveChanges();
+
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine($"Olá {feirante.Nome}");
+            builder.AppendLine($"{cliente.Nome} tem interesse nos produtos:");
+            builder.AppendLine(string.Empty);
+
+            foreach (var feiranteProduto in feiranteProdutos)
+            {
+                builder.AppendLine($"{feiranteProduto.Produto.Nome}, QTD:{feiranteProduto.ProdutoId}");
+            }
+
+            builder.AppendLine(string.Empty);
+            var celularClienteMask = long.Parse(cliente.Celular).ToString(@"00 (00) 00000-0000");
+            builder.AppendLine($"Entre em contato com o cliente através do número:{celularClienteMask}");
+
+            var sender = new SenderMessageRequest();
+            sender.From = "furry-time";
+            sender.To = feirante.Celular;
+            sender.Contents = new List<Models.SendMessageZenvia.Content>();
+            sender.Contents.Add(new Models.SendMessageZenvia.Content { Type = "text", Text = builder.ToString(), Payload = string.Empty });
+
+
+            var json = JsonConvert.SerializeObject(sender);
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"https://api.zenvia.com/v1/channels/whatsapp/messages");
+            httpRequestMessage.Headers.Add("X-API-TOKEN", "sxyGdagDRB3AFLl51p_y5gGzXnIyx2w4qmzR");
+            httpRequestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var httpClient = new HttpClient();
+            
+            var response = httpClient.SendAsync(httpRequestMessage).Result;
+
+            if(response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return Ok();
+            }
+            else if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                return Unauthorized();
+            }
+            else
+            {
+                return BadRequest();
+            }
+            
+
+        }
+
 
 
     }
