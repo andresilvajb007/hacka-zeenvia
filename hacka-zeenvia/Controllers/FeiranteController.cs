@@ -14,6 +14,7 @@ using System.Net.Http;
 using hacka_zeenvia.Models.SendMessageZenvia;
 using System.Text.RegularExpressions;
 using hacka_zeenvia.DTO;
+using System.Globalization;
 
 namespace hacka_zeenvia.Controllers
 {
@@ -179,8 +180,12 @@ namespace hacka_zeenvia.Controllers
                 builder.AppendLine($"{feiranteProduto.Produto.Nome}, QTD:{feiranteProduto.ProdutoId}");
             }
 
-            builder.AppendLine(string.Empty);
             var celularClienteMask = long.Parse(cliente.Celular).ToString(@"00 (00) 00000-0000");
+            var valorTotalFormatado = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", pedido.Total);
+
+            builder.AppendLine(string.Empty);
+            builder.AppendLine($"Total do pedido: {valorTotalFormatado}");
+            builder.AppendLine(string.Empty);            
             builder.AppendLine($"Entre em contato com o cliente através do número:{celularClienteMask}");
 
             var sender = new SenderMessageRequest();
