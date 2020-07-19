@@ -120,6 +120,8 @@ namespace hacka_zeenvia.Controllers
                 };
 
                 _context.MensagemZAP.Add(mensagem);
+                _context.SaveChanges();
+
             }
 
             return Ok();
