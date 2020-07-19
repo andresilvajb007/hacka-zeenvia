@@ -119,7 +119,8 @@ namespace hacka_zeenvia.Controllers
                     Direction = eventHook.Message.Direction,
                     To = eventHook.Message.To,
                     Conteudo = conteudo.Text,
-                    VisitorFullName = eventHook.Message.Visitor.Name
+                    VisitorFullName = eventHook.Message.Visitor.Name,
+                    Data = DateTime.Now,
 
                 };
 
@@ -183,6 +184,8 @@ namespace hacka_zeenvia.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Autenticar(string codigo)
         {
+            codigo = codigo.ToUpper();
+
             var autenticacao = _context.Autenticacao
                                        .Include(x=>x.Cliente) 
                                        .Where(x => x.Codigo == codigo)

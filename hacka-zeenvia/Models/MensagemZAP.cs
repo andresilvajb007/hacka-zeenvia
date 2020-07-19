@@ -17,6 +17,8 @@ namespace hacka_zeenvia.Models
         
         public string Conteudo { get; set; }
 
+        public DateTime Data { get;  set; }
+
         public MensagemZAP()
         {
         }

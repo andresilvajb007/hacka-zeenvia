@@ -113,9 +113,12 @@ namespace hacka_zeenvia.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult MenuFeirantes([FromQuery] string nome,string nomeProduto, int? feiranteId, int? produtoId)
+        public IActionResult MenuFeirantes([FromQuery] string nome,string nomeProduto, int? feiranteId, int? produtoId, int? clienteId)
         {
-            _logger.LogInformation($"Acessando GET  Feirante {nameof(nome)}: {nome} , {nameof(feiranteId)}: {feiranteId}");
+            _logger.LogInformation($"Acessando GET  Feirante {nameof(nome)}: {nome} , {nameof(feiranteId)}: {feiranteId}" +
+                                   $"{nameof(produtoId)}: {produtoId}" +
+                                   $"{nameof(clienteId)}: {clienteId}" +
+                                   $"{nameof(nomeProduto)}: {nomeProduto}");
 
             var feirantes = _context.Feirante
                                       .Include(x=>x.FeiranteProdutos)
@@ -138,7 +141,7 @@ namespace hacka_zeenvia.Controllers
 
                 builder.AppendLine($"{feirante.FeiranteId} - {feirante.Nome}");
                 builder.AppendLine($"{celularMask}");
-                builder.AppendLine($"https://feirante/{feirante.FeiranteId}");
+                builder.AppendLine($"https://smart-feira.netlify.app/home?feiranteId={feirante.FeiranteId}&clienteId={clienteId}");
                 builder.AppendLine(string.Empty);
             }
             

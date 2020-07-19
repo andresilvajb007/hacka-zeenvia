@@ -1,11 +1,12 @@
 ﻿<Properties StartupConfiguration="{BD7A866E-758F-45E3-80F6-14849DEF1737}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="hacka-zeenvia/Migrations/20200719032710_Autenticacao.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="hacka-zeenvia/Migrations/20200719150631_DataEnvioMensagem.cs">
     <Files>
-      <File FileName="hacka-zeenvia/Controllers/ClienteController.cs" Line="152" Column="77" IsPinned="True" />
-      <File FileName="hacka-zeenvia/Models/Autenticacao.cs" Line="25" Column="44" />
-      <File FileName="hacka-zeenvia/Context.cs" Line="72" Column="51" />
-      <File FileName="hacka-zeenvia/Models/Cliente.cs" Line="11" Column="1" />
-      <File FileName="hacka-zeenvia/Migrations/20200719032710_Autenticacao.cs" Line="22" Column="18" />
+      <File FileName="hacka-zeenvia/Controllers/ClienteController.cs" Line="188" Column="1" IsPinned="True" />
+      <File FileName="hacka-zeenvia/Controllers/FeiranteController.cs" Line="110" Column="9" />
+      <File FileName="hacka-zeenvia/Controllers/ProdutoController.cs" Line="102" Column="9" />
+      <File FileName="hacka-zeenvia/Models/Autenticacao.cs" Line="25" Column="41" />
+      <File FileName="hacka-zeenvia/Models/MensagemZAP.cs" Line="20" Column="24" />
+      <File FileName="hacka-zeenvia/Migrations/20200719150631_DataEnvioMensagem.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,7 +16,7 @@
               <Node name="Controllers" expanded="True" />
               <Node name="DTO" expanded="True" />
               <Node name="Migrations" expanded="True">
-                <Node name="20200719032710_Autenticacao.cs" selected="True" />
+                <Node name="20200719150631_DataEnvioMensagem.cs" selected="True" />
               </Node>
               <Node name="Models" expanded="True" />
             </Node>
@@ -27,9 +28,7 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/andresilva/Documents/Projetos/hacka-zeenvia/hacka-zeenvia/Controllers/ClienteController.cs" relfile="hacka-zeenvia/Controllers/ClienteController.cs" line="188" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.hacka-zeenvia PreferredExecutionTarget="/Applications/Safari.app" />
