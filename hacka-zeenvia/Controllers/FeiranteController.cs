@@ -182,7 +182,7 @@ namespace hacka_zeenvia.Controllers
             var cliente = _context.Cliente.Find(pedido.ClienteId);
             var feirante = _context.Feirante.Find(pedido.FeiranteId);
             var feiranteProdutos = _context.FeiranteProduto
-                                           .Include(x=>x.Produto)
+                                           .Include(x => x.Produto)
                                            .Where(x => feiranteProdutoIds.Contains(x.FeiranteProdutoId))
                                            .ToList();
 
@@ -190,6 +190,29 @@ namespace hacka_zeenvia.Controllers
             _context.Pedido.Add(pedido);
             _context.SaveChanges();
 
+            HttpResponseMessage response = EnviarMensagemFeirante(pedido, cliente, feirante, feiranteProdutos);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+
+                EnviarMensagemCliente(feirante.Nome, cliente.Celular);
+
+                return Ok();
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                return Unauthorized();
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+
+        }
+
+        private static HttpResponseMessage EnviarMensagemFeirante(Pedido pedido, Cliente cliente, Feirante feirante, List<FeiranteProduto> feiranteProdutos)
+        {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine($"Olá {feirante.Nome}");
             builder.AppendLine($"{cliente.Nome} tem interesse nos produtos:");
@@ -205,7 +228,7 @@ namespace hacka_zeenvia.Controllers
 
             builder.AppendLine(string.Empty);
             builder.AppendLine($"Total do pedido: {valorTotalFormatado}");
-            builder.AppendLine(string.Empty);            
+            builder.AppendLine(string.Empty);
             builder.AppendLine($"Entre em contato com o cliente através do número:{celularClienteMask}");
 
             var sender = new SenderMessageRequest();
@@ -221,26 +244,31 @@ namespace hacka_zeenvia.Controllers
             httpRequestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var httpClient = new HttpClient();
-            
+
             var response = httpClient.SendAsync(httpRequestMessage).Result;
-
-            if(response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return Ok();
-            }
-            else if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                return Unauthorized();
-            }
-            else
-            {
-                return BadRequest();
-            }
-            
-
+            return response;
         }
 
+        private static HttpResponseMessage EnviarMensagemCliente(string nomeFeirante, string numeroCliente)
+        {
+            var mensagem = $"Pedido recebido, aguarde o Feirante {nomeFeirante} entrar em contato";
+            var sender = new SenderMessageRequest();
+            sender.From = "furry-time";
+            sender.To = numeroCliente;
+            sender.Contents = new List<Models.SendMessageZenvia.Content>();
+            sender.Contents.Add(new Models.SendMessageZenvia.Content { Type = "text", Text = mensagem, Payload = string.Empty });
 
 
+            var json = JsonConvert.SerializeObject(sender);
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"https://api.zenvia.com/v1/channels/whatsapp/messages");
+            httpRequestMessage.Headers.Add("X-API-TOKEN", "sxyGdagDRB3AFLl51p_y5gGzXnIyx2w4qmzR");
+            httpRequestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var httpClient = new HttpClient();
+
+            var response = httpClient.SendAsync(httpRequestMessage).Result;
+
+            return response;
+        }
     }
 }
