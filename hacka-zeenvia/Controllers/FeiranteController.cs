@@ -138,6 +138,7 @@ namespace hacka_zeenvia.Controllers
 
                 builder.AppendLine($"{feirante.FeiranteId} - {feirante.Nome}");
                 builder.AppendLine($"{celularMask}");
+                builder.AppendLine($"https://feirante/{feirante.FeiranteId}");
                 builder.AppendLine(string.Empty);
             }
             
