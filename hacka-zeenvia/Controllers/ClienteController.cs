@@ -5,8 +5,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using hacka_zeenvia.Models;
+using hacka_zeenvia.Models.SendMessageZenvia;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -105,8 +107,8 @@ namespace hacka_zeenvia.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult MensagemEnviada([FromBody] EventHook eventHook)
         {
-            var json = JsonConvert.SerializeObject(eventHook);
-            _logger.LogInformation($"Acessando POST mensagem-enviada {nameof(ClienteController)} {nameof(eventHook)}: {json}");
+            var jsonEventHook = JsonConvert.SerializeObject(eventHook);
+            _logger.LogInformation($"Acessando POST mensagem-enviada {nameof(ClienteController)} {nameof(eventHook)}: {jsonEventHook}");
 
             foreach (var conteudo in eventHook.Message.Contents.Where(x => x.Type == "text"))
             {
@@ -137,15 +139,36 @@ namespace hacka_zeenvia.Controllers
 
                 _context.SaveChanges();
 
+                if(mensagem.Conteudo == "oi" && mensagem.Direction == "IN")
+                {
+                    Autenticacao autenticacao = new Autenticacao();                    
+                    autenticacao.ClienteId = cliente.ClienteId;
+                    autenticacao.Data = DateTime.Now;
+                    autenticacao.GerarCodigo();
 
-                //var json = JsonConvert.SerializeObject(sender);
-                //var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"https://api.zenvia.com/v1/channels/whatsapp/messages");
-                //httpRequestMessage.Headers.Add("X-API-TOKEN", "sxyGdagDRB3AFLl51p_y5gGzXnIyx2w4qmzR");
-                //httpRequestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                    _context.Autenticacao.Add(autenticacao);
+                    _context.SaveChanges();
 
-                //var httpClient = new HttpClient();
+                    var mensagemAutenticacao = $"Digite:{autenticacao.Codigo} para completar a autenticação:";
+                    
 
-                //var response = httpClient.SendAsync(httpRequestMessage).Result;
+                    var sender = new SenderMessageRequest();
+                    sender.From = "furry-time";
+                    sender.To = cliente.Celular;
+                    sender.Contents = new List<Models.SendMessageZenvia.Content>();
+                    sender.Contents.Add(new Models.SendMessageZenvia.Content { Type = "text", Text = mensagemAutenticacao, Payload = string.Empty });
+
+
+                    var json = JsonConvert.SerializeObject(sender);                                    
+                    var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"https://api.zenvia.com/v1/channels/whatsapp/messages");
+                    httpRequestMessage.Headers.Add("X-API-TOKEN", "sxyGdagDRB3AFLl51p_y5gGzXnIyx2w4qmzR");
+                    httpRequestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    var httpClient = new HttpClient();
+                    var response = httpClient.SendAsync(httpRequestMessage).Result;
+                }
+
+
 
             }
 
@@ -153,14 +176,27 @@ namespace hacka_zeenvia.Controllers
 
         }
 
-        [HttpGet("gerar-chave-autenticacao")]
+
+
+        [HttpGet("autentica")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GerarGuid()
+        public IActionResult Autenticar(string codigo)
         {
-            var guid = Guid.NewGuid().ToString();
+            var autenticacao = _context.Autenticacao
+                                       .Include(x=>x.Cliente) 
+                                       .Where(x => x.Codigo == codigo)
+                                       .FirstOrDefault();
 
-            return Ok(guid);
+            if(autenticacao != null)
+            {
+                return Ok(new { idCliente = autenticacao.ClienteId, nomeCliente = autenticacao.Cliente.Nome  });
+            }
+            else
+            {
+                return Ok(new { idCliente = 0, nomeCliente = "nao autenticado" });
+            }
+           
         }
 
        }

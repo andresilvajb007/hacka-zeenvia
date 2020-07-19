@@ -13,6 +13,8 @@ namespace hacka_zeenvia.Models
 
         public ICollection<Pedido> Pedidos { get; set; }
 
+        public ICollection<Autenticacao> Autenticacoes { get; set; }
+
         public Cliente()
         {
         }

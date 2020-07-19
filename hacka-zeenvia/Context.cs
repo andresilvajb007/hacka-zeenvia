@@ -17,6 +17,7 @@ namespace hacka_zeenvia
         public virtual DbSet<Produto> Produto { get; set; }
         public virtual DbSet<Feirante> Feirante { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
+        public virtual DbSet<Autenticacao> Autenticacao { get; set; }
         public virtual DbSet<FeiranteProduto> FeiranteProduto { get; set; }
         public virtual DbSet<MensagemZAP> MensagemZAP { get; set; }
         public virtual DbSet<Pedido> Pedido { get; set; }
@@ -28,6 +29,7 @@ namespace hacka_zeenvia
             modelBuilder.Entity<Feirante>(ConfigureFeirante);
             modelBuilder.Entity<FeiranteProduto>(ConfigureFeiranteProduto);
             modelBuilder.Entity<Cliente>(ConfigureCliente);
+            modelBuilder.Entity<Autenticacao>(ConfigureAutenticacao);
             modelBuilder.Entity<MensagemZAP>(ConfigureMensagemZAP);
             modelBuilder.Entity<Pedido>(ConfigurePedido);
         }
@@ -60,6 +62,15 @@ namespace hacka_zeenvia
         private void ConfigureCliente(EntityTypeBuilder<Cliente> builder)
         {
             builder.HasKey(x => x.ClienteId);
+        }
+
+        private void ConfigureAutenticacao(EntityTypeBuilder<Autenticacao> builder)
+        {
+            builder.HasKey(x => x.AtenticacaoId);
+
+            builder.HasOne(x => x.Cliente)
+                   .WithMany(x => x.Autenticacoes)
+                   .HasForeignKey(x => x.ClienteId);
         }
 
         private void ConfigureMensagemZAP(EntityTypeBuilder<MensagemZAP> builder)
