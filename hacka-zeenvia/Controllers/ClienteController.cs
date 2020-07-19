@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using hacka_zeenvia.Models;
 using Microsoft.AspNetCore.Http;
@@ -135,10 +137,31 @@ namespace hacka_zeenvia.Controllers
 
                 _context.SaveChanges();
 
+
+                //var json = JsonConvert.SerializeObject(sender);
+                //var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"https://api.zenvia.com/v1/channels/whatsapp/messages");
+                //httpRequestMessage.Headers.Add("X-API-TOKEN", "sxyGdagDRB3AFLl51p_y5gGzXnIyx2w4qmzR");
+                //httpRequestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                //var httpClient = new HttpClient();
+
+                //var response = httpClient.SendAsync(httpRequestMessage).Result;
+
             }
 
             return Ok();
 
         }
+
+        [HttpGet("gerar-chave-autenticacao")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GerarGuid()
+        {
+            var guid = Guid.NewGuid().ToString();
+
+            return Ok(guid);
+        }
+
        }
     }
