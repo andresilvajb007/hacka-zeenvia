@@ -99,6 +99,31 @@ namespace hacka_zeenvia.Controllers
             return Ok(produtos);
         }
 
+        [HttpGet("busca-feirante-produtos")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult BuscaFeiranteProdutos([FromQuery]  int? produtoId, int? feiranteId)
+        {
+            _logger.LogInformation($"Acessando GET  BuscaFeiranteProdutos");
+
+            var produtos = _context.FeiranteProduto
+                                      .Include(x=>x.Produto)
+                                      .Where(x => (produtoId == null || x.ProdutoId == produtoId) &&
+                                                  (feiranteId == null || x.FeiranteId == feiranteId)
+                                                  
+                                             ).ToList();
+
+            if (produtos == null || produtos.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(produtos);
+        }
+
         [HttpGet("menu-produtos")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]

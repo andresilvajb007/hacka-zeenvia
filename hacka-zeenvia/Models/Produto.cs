@@ -9,6 +9,10 @@ namespace hacka_zeenvia.Models
 
         public string Nome { get; set; }
 
+        public string Unidade { get; set; }
+
+        public string UrlImagem { get; set; }
+
         public ICollection<FeiranteProduto> FeiranteProdutos { get; private set; }
 
         public Produto()
