@@ -157,7 +157,7 @@ namespace hacka_zeenvia.Controllers
 
                 builder.AppendLine($"{feirante.FeiranteId} - {feirante.Nome}");
                 builder.AppendLine($"{celularMask}");
-                builder.AppendLine($"https://smart-feira.netlify.app/home?feiranteId={feirante.FeiranteId}&clienteId={clienteId}");
+                builder.AppendLine($"https://smart-feira.netlify.app/list-products?feiranteId={feirante.FeiranteId}&clienteId={clienteId}");
                 builder.AppendLine(string.Empty);
             }
             
