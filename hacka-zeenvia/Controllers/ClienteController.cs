@@ -140,7 +140,7 @@ namespace hacka_zeenvia.Controllers
 
                 _context.SaveChanges();
 
-                if(mensagem.Conteudo == "oi" && mensagem.Direction == "IN")
+                if(mensagem.Conteudo.ToLower().Contains("oi") && mensagem.Direction == "IN")
                 {
                     Autenticacao autenticacao = new Autenticacao();                    
                     autenticacao.ClienteId = cliente.ClienteId;
