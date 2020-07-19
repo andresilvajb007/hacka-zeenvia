@@ -1,6 +1,3 @@
-# hacka-zeenvia
-Projeto do hack da Zenvia
-
 <h3 align="center">
   Desafio Hacka Zenvia
 </h3>
