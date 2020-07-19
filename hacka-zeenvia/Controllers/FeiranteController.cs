@@ -116,7 +116,10 @@ namespace hacka_zeenvia.Controllers
         public IActionResult MenuFeirantes([FromQuery] string nome,string nomeProduto, int? feiranteId, int? produtoId, string codigoCliente)
         {
 
-            codigoCliente = codigoCliente.ToUpper();
+            if (!string.IsNullOrEmpty(codigoCliente))
+            {
+                codigoCliente = codigoCliente.ToUpper();
+            }
 
             var autenticacao = _context.Autenticacao
                                        .Include(x => x.Cliente)
@@ -157,7 +160,7 @@ namespace hacka_zeenvia.Controllers
 
                 builder.AppendLine($"{feirante.FeiranteId} - {feirante.Nome}");
                 builder.AppendLine($"{celularMask}");
-                builder.AppendLine($"https://smart-feira.netlify.app/list-products?feiranteId={feirante.FeiranteId}&clienteId={clienteId}");
+                builder.AppendLine($"https://smart-feira.netlify.app/list-products/{feirante.FeiranteId}/{clienteId}");
                 builder.AppendLine(string.Empty);
             }
             
