@@ -15,7 +15,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## :computer: Projeto
 
-Aplicação para armazenar Mensagens, Produtos, Clientes, Lojistas e Pedidos.
+Aplicação para armazenar Mensagens, Produtos, Clientes, Lojistas e Pedidos e retornar os menus de Feirantes próximos e Produtos
 
 
 ## :point_down: Executando o projeto
